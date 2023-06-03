@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Show Books</title>
+</head>
+<body>
+  {% extends 'layout.html' %}
+
+  {% block content %}
+  <h1>here you can see all the books we have in the library</h1>
+  <h3>you can choose if you want to add, find or delete a book</h3>
+  <!-- Button to Find Book -->
+  <a href="{{ url_for('find_book') }}" class="btn btn-primary">Find Book</a>
+
+  <!-- Button to Add Book -->
+  <a href="{{ url_for('add_book') }}" class="btn btn-success">Add Book</a>
+
+  <!-- Button to Delete Book -->
+  <a href="{{ url_for('delete_book') }}" class="btn btn-danger">Delete Book</a>
+  
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Author</th>
+      <th>Year Published</th>
+      <th>Book Type</th>
+    </tr>
+    {% for book in books %}
+    <tr>
+      <td>{{ book[1] }}</td>
+      <td>{{ book[2] }}</td>
+      <td>{{ book[3] }}</td>
+      <td>{{ book[4] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endblock %}
+</body>
+</html>

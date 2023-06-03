@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find Customer</title>
+</head>
+<body>
+  {% extends 'layout.html' %}
+  {% block content %}
+
+  <h1>Find Customer</h1>
+  
+  <form action="/find_customer" method="GET">
+    <label for="name">Name:</label>
+    <input type="text" id="nameInput" name="name" required>
+    <button type="submit">Search</button>
+  </form>
+
+  {% if customer %}
+    <h2>Customer Details</h2>
+    <p>Name: {{ customer[1] }}</p>
+    <p>Family: {{ customer[2] }}</p>
+    <p>City: {{ customer[3] }}</p>
+    <p>Age: {{ customer[4] }}</p>
+  {% endif %}
+
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
+
+  {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Book</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function createBook() {
+        var name = document.getElementById('nameInput').value;
+        var author = document.getElementById('authorInput').value;
+        var yearPublished = document.getElementById('yearPublishedInput').value;
+        var bookType = document.getElementById('bookTypeInput').value;
+
+        // Create a JavaScript object representing the book data
+        var bookData = {
+            name: name,
+            author: author,
+            yearPublished: yearPublished,
+            bookType: bookType
+        };
+        
+        var headers = {
+            'Content-Type': 'application/json'
+        };
+
+        // Send a POST request with the bookData as JSON payload
+        axios.post('/add_book', bookData, { headers: headers })
+        .then(function (response) {
+            if (response.data.message === 'Book added successfully') {
+            console.log(response.data.message);
+            console.log('name: ' + response.data.name);
+            console.log('author: ' + response.data.author);
+            console.log('yearPublished: ' + response.data.yearPublished);
+            console.log('bookType: ' + response.data.bookType);
+            }
+            else if (response.data.message === 'Book already exists') {
+            alert('The book already exists in the database');
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+  </script>
+</head>
+<body>
+  {% extends 'layout.html' %}
+
+  {% block content %}
+  <h1>Add Book</h1>
+
+  <div id="bookForm">
+    <label for="name">Name:</label>
+    <input type="text" id="nameInput" required><br><br>
+
+    <label for="author">Author:</label>
+    <input type="text" id="authorInput" required><br><br>
+
+    <label for="year_published">Year Published:</label>
+    <input type="number" id="yearPublishedInput" required><br><br>
+
+    <label for="book_type">Book Type:</label>
+    <input type="number" id="bookTypeInput" required><br><br>
+
+    <button onclick="createBook()">Create Book</button>
+  </div>
+
+
+  {% endblock %}
+
+</body>
+</html>

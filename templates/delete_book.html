@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Book</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function deleteBook() {
+      var bookName = document.getElementById('bookName').value;
+      var bookAuthor = document.getElementById('bookAuthor').value;
+  
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+  
+      // Send a POST request with the bookName and bookAuthor as data
+      axios.post('/delete_book', JSON.stringify({ name: bookName, author: bookAuthor }), { headers: headers })
+        .then(function (response) {
+          if (response.data.message === 'Book removed successfully') {
+            alert('Book removed successfully');
+          }
+          else if (response.data.message === 'Book not found') {
+            alert('Book not found');
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  </script>
+</head>
+<body>
+  {% extends 'layout.html' %}
+  {% block content %}
+
+  <div id="deleteBookForm">
+    <h1>Delete Book</h1>
+
+    <form>
+      <!-- Book name and author fields -->
+      <div>
+        <label for="bookName">Book Name:</label>
+        <input type="text" id="bookName" name="name" placeholder="Book Name">
+      </div>
+      <div>
+        <label for="bookAuthor">Author:</label>
+        <input type="text" id="bookAuthor" name="author" placeholder="Author">
+      </div>
+      <button type="button" onclick="deleteBook()">Delete Book</button>
+    </form>
+  </div>
+
+
+  {% endblock %}
+
+</body>
+</html>

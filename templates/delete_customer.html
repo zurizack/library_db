@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Customer</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function deleteCustomer() {
+      var customerName = document.getElementById('customerName').value;
+      var customerCity = document.getElementById('customerCity').value;
+      var customerAge = document.getElementById('customerAge').value;
+
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+
+      // Send a POST request with the customerName, customerCity, and customerAge as data
+      axios.post('/delete_customer', JSON.stringify({ name: customerName, city: customerCity, age: customerAge }), { headers: headers })
+        .then(function (response) {
+          if (response.data.message === 'Customer removed successfully') {
+            alert('Customer removed successfully');
+          }
+          else if (response.data.message === 'Customer not found') {
+            alert('Customer not found');
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  </script>
+</head>
+<body>
+  {% extends 'layout.html' %}
+  {% block content %}
+
+  <div id="deleteCustomerForm">
+    <h1>Delete Customer</h1>
+
+    <form>
+      <!-- Customer name, city, and age fields -->
+      <div>
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" name="name" placeholder="Customer Name">
+      </div>
+      <div>
+        <label for="customerFamily">Customer Family:</label>
+        <input type="text" id="customerFamily" name="name" placeholder="Customer Family">
+      </div>
+      <div>family
+        <label for="customerCity">City:</label>
+        <input type="text" id="customerCity" name="city" placeholder="City">
+      </div>
+      <div>
+        <label for="customerAge">Age:</label>
+        <input type="text" id="customerAge" name="age" placeholder="Age">
+      </div>
+      <button type="button" onclick="deleteCustomer()">Delete Customer</button>
+    </form>
+  </div>
+
+  {% endblock %}
+
+</body>
+</html>

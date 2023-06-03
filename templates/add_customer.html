@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Customer</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function createCustomer() {
+        var name = document.getElementById('nameInput').value;
+        var family = document.getElementById('familyInput').value; // Added the family input
+        var city = document.getElementById('cityInput').value;
+        var age = document.getElementById('ageInput').value;
+
+        // Create a JavaScript object representing the customer data
+        var customerData = {
+            name: name,
+            family: family, // Updated the field name to 'family'
+            city: city,
+            age: age
+        };
+
+        var headers = {
+            'Content-Type': 'application/json'
+        };
+
+        // Send a POST request with the customerData as JSON payload
+        axios.post('/add_customer', customerData, { headers: headers })
+        .then(function (response) {
+            if (response.data.message === 'Customer added successfully') {
+                console.log(response.data.message);
+                console.log('Name: ' + response.data.name);
+                console.log('Family: ' + response.data.family); // Added logging of the family field
+                console.log('City: ' + response.data.city);
+                console.log('Age: ' + response.data.age);
+            } else if (response.data.message === 'Customer already exists') {
+                alert('The customer already exists in the database');
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+    }
+  </script>
+</head>
+<body>
+  {% extends 'layout.html' %}
+  {% block content %}
+
+  <h1>Add Customer</h1>
+
+  <div id="customerForm">
+    <label for="name">Name:</label>
+    <input type="text" id="nameInput" required><br><br>
+
+    <label for="family">Family:</label>
+    <input type="text" id="familyInput" required><br><br>
+
+    <label for="city">City:</label>
+    <input type="text" id="cityInput" required><br><br>
+
+    <label for="age">Age:</label>
+    <input type="number" id="ageInput" required><br><br>
+
+    <button onclick="createCustomer()">Create Customer</button>
+  </div>
+
+
+  {% endblock %}
+
+</body>
+</html>
